@@ -41,11 +41,9 @@ class CLI < Service
         when 1
             all_service_routes
             puts ""
-            restart
         when 2
             unique_routes
             puts ""
-            restart
         when 3
             puts "Goodbye."
             input == "exit"
@@ -84,44 +82,23 @@ class CLI < Service
     end
 
     def select_service(user_id)
-        puts "Please select from the following service(s):"
-        SERVICES.each_with_index { |route, index| 
-            puts "#{index + 1}. #{SERVICES[index][0]}"
-        }
-        puts ""
-        input1 = gets.strip.to_i
-        puts ""
-
-        puts "Please select from the following service(s):"
-        SERVICES.each_with_index { |route, index| 
-            puts "#{index + 1}. #{SERVICES[index][0]}"
-        }
-        puts ""
-        input2 = gets.strip.to_i
-        puts ""
-        routes_by_service(user_id, input1, input2)
+        list_services
+        input_1 = gets.strip.to_i
+        list_services
+        input_2 = gets.strip.to_i
+        routes_by_service(user_id, input_1, input_2)
+        binding.pry
     end
 
-    puts "#{SERVICES.length + 1}. Return to Main Menu"
-    puts "#{SERVICES.length + 2}. Exit"
-
-    def restart
-        puts "Please select from the following:"
-        puts "1. Return to Main Menu"
-        puts "2. Exit"
+    def list_services
+        array_length = Service.all.length
         puts ""
-        input = gets.strip.to_i
+        puts "Please select from the following service(s):"
+        Service.all.each_with_index { |routes, index| 
+            puts "#{index + 1}. #{routes.service}" unless routes.service.nil?
+        }
+        puts "#{array_length}. Return to Main Menu"
+        puts "#{array_length + 1}. Exit"
         puts ""
-        case input
-        when 1
-            start
-        when 2
-            puts "Goodbye."
-            input == "exit"
-        else
-            puts "Invalid entry."
-            puts ""
-            start
-        end
     end
 end
