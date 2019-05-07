@@ -1,104 +1,103 @@
 class Service
+    attr_accessor :service, :routes
 
-    SERVICES = [    
-        ["Strava", [
-            "SRT", 
-            "CVT", 
-            "Perkiomen"
-            ],
-        ],
-        ["RWGPS", [
-            "CVT", 
-            "Perkiomen", 
-            "Welsh Mountain"
-            ],
-        ],
-        ["KOMOOT", [
-            "SRT", 
-            "Welsh Mountain", 
-            "Oaks to Philly"
-            ]
-        ]
-    ]
-
+    @@all = []
     USER = []
+    ALL_ROUTES = []
 
+    def initialize(service = nil, routes = nil)
+        @service = service
+        @routes = routes
+        @@all << self
+    end
+
+    def self.all
+        @@all
+    end
+
+    def map_routes
+        @@all.map.each_with_index do |service, index|
+            ALL_ROUTES << service.routes unless service.routes.nil?
+        end
+    end
 
     def all_service_routes
-        puts "#{SERVICES[1][0]}"
+        map_routes
+        puts "#{ALL_ROUTES.flatten}"
     end
 
     def unique_routes
-        uniq_routes = SERVICES.flatten.uniq
+        map_routes
+        uniq_routes = ALL_ROUTES.flatten.uniq
         puts "#{uniq_routes}"
     end
 
     def all_user_routes(user_id)
-        create_service(user_id)
+        @@all.each do |array|
+            array.each do |x| 
+                if name.include?("Strava")
+                    service = input_combo.select { |x| x.service == "Strava" }
+                    routes = service[0].routes
+                    user_routes = prepend_user(user_id, routes)
+                    USER << user_routes
+                elsif name.include?("RWGPS")
+                    service = input_combo.select { |x| x.service == "RWGPS" }
+                    routes = service[0].routes
+                    user_routes = append_user(user_id, routes)
+                    USER << user_routes
+                elsif name.include?("Komoot")
+                    service = input_combo.select { |x| x.service == "Komoot" }
+                    routes = service[0].routes
+                    user_routes = sandwich_user(user_id, routes)
+                    USER << user_routes
+                else
+                    
+                    USER << service[0].routes
+                end
+            end
+        end
         puts "#{USER.flatten}"
     end
 
-    def routes_by_service(user_id, input)
-        for index in (0...SERVICES.length)
-            case input
-            when 1
-                SERVICES[index]
-                puts "#{USER.flatten}"
-                puts ""
-            when 2
-                "RWGPS"
-                SERVICES[1]
-                puts "#{USER.flatten}"
-                puts ""
-            when 3
-                "Komoot"
-                SERVICES[2]
-                puts "#{USER.flatten}"
-                puts ""
-            when 4
-                strava_user(user_id)
-                rwgps_user(user_id)
-                puts "#{USER.flatten}"
-                puts ""
-            when 5
-                strava_user(user_id)
-                komoot_user(user_id)
-                puts "#{USER.flatten}"
-                puts ""
-            when 6
-                komoot_user(user_id)
-                rwgps_user(user_id)
-                puts "#{USER.flatten}"
-                puts ""
-            when 7
-                puts "Goodbye."
-                input == "exit"
+    def routes_by_service(user_id, input_1, input_2)
+        input_1 = @@all[input_1 - 1]
+        input_2 = @@all[input_2 - 1]
+        input_service = [input_1.service, input_2.service]
+        input_combo = [input_1, input_2]
+        input_service.each do |name|
+            case name
+            when "Strava"
+                service = input_combo.select { |x| x.service == "Strava" }
+                routes = service[0].routes
+                user_routes = prepend_user(user_id, routes)
+                USER << user_routes
+            when "RWGPS"
+                service = input_combo.select { |x| x.service == "RWGPS" }
+                routes = service[0].routes
+                user_routes = append_user(user_id, routes)
+                USER << user_routes
+            when "Komoot"
+                service = input_combo.select { |x| x.service == "Komoot" }
+                routes = service[0].routes
+                user_routes = sandwich_user(user_id, routes)
+                USER << user_routes
             else
-                puts "Invalid entry."
-                puts ""
-                start
+                service = input_combo.select { |x| x.service == "" }
+                USER << service[0].routes
             end
         end
+        puts "#{input_service}: #{USER.flatten.uniq}"
     end
 
-    def prepend_user(user_id)
-        routes = ["SRT", "CVT", "Perkiomen"]
-        USER << routes.map { |route| "#{user_id}" + "#{route}" }
+    def prepend_user(user_id, routes)
+        routes.map { |route| "#{user_id}" + "#{route}" }
     end
 
-    def append_user(user_id)
-        routes = ["CVT", "Perkiomen", "Welsh Mountain"]
-        USER << routes.map { |route| "#{route}" + "#{user_id}" }
+    def append_user(user_id, routes)
+        routes.map { |route| "#{route}" + "#{user_id}" }
     end
 
-    def sandwich_user(user_id)
-        routes = ["SRT", "Welsh Mountain", "Oaks to Philly"]
-        USER << routes.map { |route| "#{user_id}" + "#{route}" + "#{user_id}" }
-    end
-
-    def create_service(user_id)
-        prepend_user(user_id)
-        append_user(user_id)
-        sandwich_user(user_id)
+    def sandwich_user(user_id, routes)
+        routes.map { |route| "#{user_id}" + "#{route}" + "#{user_id}" }
     end
 end
