@@ -2,4 +2,8 @@
 
 require_relative '../config/environment'
 
+Service.new("Strava", ["SRT", "CVT", "Perkiomen"])
+Service.new("RWGPS", ["CVT", "Perkiomen", "Welsh Mountain"])
+Service.new("Komoot", [ "SRT", "Welsh Mountain", "Oaks to Philly"])
+# Strava.new.create_service
 CLI.new.call
