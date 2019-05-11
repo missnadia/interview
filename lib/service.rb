@@ -18,7 +18,7 @@ class Service
         "Oaks to Philly"
     ]
 
-    ALL_SERVICES = (STRAVA << RWGPS << KOMOOT).flatten
+    ALL_SERVICES = STRAVA + RWGPS + KOMOOT
 
     def all_service_routes
         puts "#{ALL_SERVICES}"
@@ -30,7 +30,7 @@ class Service
     end
 
     def all_user_routes(user_id)
-
+        
     end
 
     def routes_by_service(user_id)
