@@ -20,11 +20,9 @@ class CLI < Service
         when 2
             user_info
         when 3
-            puts ""
             puts "Goodbye."
             input == "exit"
         else
-            puts ""
             puts "Invalid entry."
             puts ""
             start
