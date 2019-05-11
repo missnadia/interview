@@ -54,6 +54,7 @@ class CLI < Service
 
     def user_info
         puts "Please enter the user ID:"
+        puts ""
         user_id = gets.strip.to_i
         puts ""
         puts "Please select from one of the following:"
@@ -98,6 +99,7 @@ class CLI < Service
         puts "Please select from the following:"
         puts "1. Return to Main Menu"
         puts "2. Exit"
+        puts ""
         input = gets.strip.to_i
         puts ""
         case input
