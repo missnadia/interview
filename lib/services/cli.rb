@@ -55,6 +55,9 @@ class CLI < Service
     end
 
     def user_info
+        puts "Please enter the user ID:"
+        user_id = gets.strip.to_i
+        puts ""
         puts "Please select from one of the following:"
         puts "1. User - All Routes"
         puts "2. User - Routes by Service"
@@ -64,15 +67,13 @@ class CLI < Service
         puts ""
         case input
         when 1
-            all_user_routes
+            all_user_routes(user_id)
         when 2
-            routes_by_service
+            routes_by_service(user_id)
         when 3
-            puts ""
             puts "Goodbye."
             input == "exit"
         else
-            puts ""
             puts "Invalid entry."
             puts ""
             start

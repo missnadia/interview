@@ -29,9 +29,10 @@ class Service
         puts "#{uniq_routes}"
     end
 
-    def all_user_routes
+    def all_user_routes(user_id)
+
     end
 
-    def routes_by_service
+    def routes_by_service(user_id)
     end
 end
