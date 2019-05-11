@@ -18,13 +18,15 @@ class Service
         "Oaks to Philly"
     ]
 
+    ALL_SERVICES = (STRAVA << RWGPS << KOMOOT).flatten
+
     def all_service_routes
-        all_routes = []
-        all_routes = (STRAVA << RWGPS << KOMOOT).flatten
-        puts "#{all_routes}"
+        puts "#{ALL_SERVICES}"
     end
 
     def unique_routes
+        uniq_routes = ALL_SERVICES.uniq!
+        puts "#{uniq_routes}"
     end
 
     def all_user_routes
