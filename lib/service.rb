@@ -22,8 +22,7 @@ class Service
 
 
     def all_service_routes
-        Strava.all
-        puts "#{USER}"
+        puts "#{SERVICES.flatten}"
     end
 
     def unique_routes
