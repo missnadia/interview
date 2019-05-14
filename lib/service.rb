@@ -1,33 +1,33 @@
 class Service
 
+    SERVICES = [
     STRAVA = [
         "SRT", 
         "CVT", 
         "Perkiomen"
-    ]
-
+        ],
     RWGPS = [
         "CVT", 
         "Perkiomen", 
         "Welsh Mountain"
-    ]
-
+        ],
     KOMOOT = [
         "SRT", 
         "Welsh Mountain", 
         "Oaks to Philly"
     ]
-
-    ALL_SERVICES = STRAVA + RWGPS + KOMOOT
+    ]
 
     USER = []
 
+
     def all_service_routes
-        puts "#{ALL_SERVICES}"
+        Strava.all
+        puts "#{USER}"
     end
 
     def unique_routes
-        uniq_routes = ALL_SERVICES.uniq!
+        uniq_routes = SERVICES.flatten.uniq
         puts "#{uniq_routes}"
     end
 
