@@ -40,8 +40,12 @@ class CLI < Service
         case input
         when 1
             all_service_routes
+            puts ""
+            restart
         when 2
             unique_routes
+            puts ""
+            restart
         when 3
             puts "Goodbye."
             input == "exit"
@@ -81,19 +85,25 @@ class CLI < Service
 
     def select_service(user_id)
         puts "Please select from the following service(s):"
-        puts "1. Strava"
-        puts "2. RWGPS"
-        puts "3. Komoot"
-        puts "4. Strava, RWGPS"
-        puts "5. Strava, Komoot"
-        puts "6. Komoot, RWGPS"
-        puts "7. Exit"
+        SERVICES.each_with_index { |route, index| 
+            puts "#{index + 1}. #{SERVICES[index][0]}"
+        }
         puts ""
-        input = gets.strip.to_i
+        input1 = gets.strip.to_i
         puts ""
-        routes_by_service(user_id, input)
-        restart
+
+        puts "Please select from the following service(s):"
+        SERVICES.each_with_index { |route, index| 
+            puts "#{index + 1}. #{SERVICES[index][0]}"
+        }
+        puts ""
+        input2 = gets.strip.to_i
+        puts ""
+        routes_by_service(user_id, input1, input2)
     end
+
+    puts "#{SERVICES.length + 1}. Return to Main Menu"
+    puts "#{SERVICES.length + 2}. Exit"
 
     def restart
         puts "Please select from the following:"
