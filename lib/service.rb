@@ -33,30 +33,35 @@ class Service
     end
 
     def all_user_routes(user_id)
-        @@all.each do |array|
-            array.each do |x| 
-                if name.include?("Strava")
-                    service = input_combo.select { |x| x.service == "Strava" }
+        services = []
+
+        @@all.map.each_with_index { |service, index| services << service.service }
+        
+        services.each do |name|
+            case name
+            when "Strava"
+                service = @@all.select { |x| x.service == "Strava" }
                     routes = service[0].routes
                     user_routes = prepend_user(user_id, routes)
                     USER << user_routes
-                elsif name.include?("RWGPS")
-                    service = input_combo.select { |x| x.service == "RWGPS" }
+            when "RWGPS"
+                service = @@all.select { |x| x.service == "RWGPS" }
                     routes = service[0].routes
                     user_routes = append_user(user_id, routes)
                     USER << user_routes
-                elsif name.include?("Komoot")
-                    service = input_combo.select { |x| x.service == "Komoot" }
+            when "Komoot"
+                service = @@all.select { |x| x.service == "Komoot" }
                     routes = service[0].routes
                     user_routes = sandwich_user(user_id, routes)
                     USER << user_routes
                 else
-                    
-                    USER << service[0].routes
-                end
+                service = @@all.select { |x| x.service != nil }
+                routes = service[0].routes 
+                USER << routes
             end
         end
-        puts "#{USER.flatten}"
+
+        puts "#{USER.flatten.uniq}"
     end
 
     def routes_by_service(user_id, input_1, input_2)
