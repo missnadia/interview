@@ -87,8 +87,9 @@ class Service
                 user_routes = sandwich_user(user_id, routes)
                 USER << user_routes
             else
-                service = input_combo.select { |x| x.service == "" }
-                USER << service[0].routes
+                service = input_combo.select { |x| x.service != nil }
+                routes = service[0].routes 
+                USER << routes
             end
         end
         puts "#{input_service}: #{USER.flatten.uniq}"
