@@ -92,7 +92,7 @@ class Service
                 USER << routes
             end
         end
-        puts "#{input_service}: #{USER.flatten.uniq}"
+        puts "#{input_service.uniq}: #{USER.flatten.uniq}"
     end
 
     def prepend_user(user_id, routes)
