@@ -87,7 +87,6 @@ class CLI < Service
         list_services
         input_2 = gets.strip.to_i
         routes_by_service(user_id, input_1, input_2)
-        binding.pry
     end
 
     def list_services

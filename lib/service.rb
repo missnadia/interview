@@ -41,20 +41,20 @@ class Service
             case name
             when "Strava"
                 service = @@all.select { |x| x.service == "Strava" }
-                    routes = service[0].routes
-                    user_routes = prepend_user(user_id, routes)
-                    USER << user_routes
+                routes = service[0].routes
+                user_routes = prepend_user(user_id, routes)
+                USER << user_routes
             when "RWGPS"
                 service = @@all.select { |x| x.service == "RWGPS" }
-                    routes = service[0].routes
-                    user_routes = append_user(user_id, routes)
-                    USER << user_routes
+                routes = service[0].routes
+                user_routes = append_user(user_id, routes)
+                USER << user_routes
             when "Komoot"
                 service = @@all.select { |x| x.service == "Komoot" }
-                    routes = service[0].routes
-                    user_routes = sandwich_user(user_id, routes)
-                    USER << user_routes
-                else
+                routes = service[0].routes
+                user_routes = sandwich_user(user_id, routes)
+                USER << user_routes
+            else
                 service = @@all.select { |x| x.service != nil }
                 routes = service[0].routes 
                 USER << routes
@@ -69,6 +69,7 @@ class Service
         input_2 = @@all[input_2 - 1]
         input_service = [input_1.service, input_2.service]
         input_combo = [input_1, input_2]
+
         input_service.each do |name|
             case name
             when "Strava"
@@ -92,6 +93,8 @@ class Service
                 USER << routes
             end
         end
+        
+        puts " "
         puts "#{input_service.uniq}: #{USER.flatten.uniq}"
     end
 
